@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Special Surprise Date</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #0f3d26, #145f32); /* Softer green gradient */
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Clean SVG heart shape floating animation */
+    .heart {
+      position: absolute;
+      width: 80px;
+      height: 90px;
+      background: transparent;
+      animation: float 12s linear infinite;
+      opacity: 0.3;
+    }
+
+    .heart svg {
+      width: 100%;
+      height: 100%;
+      fill: rgba(144, 238, 144, 0.3); /* Light green, transparent */
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-10vh) translateX(20px);
+        opacity: 0;
+      }
+    }
+
+    /* Corners */
+    .corner-text {
+      position: fixed;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      z-index: 1000;
+    }
+
+    .top-left { top: 10px; left: 10px; }
+    .top-right { top: 10px; right: 10px; }
+    .bottom-left { bottom: 10px; left: 10px; }
+    .bottom-right { bottom: 10px; right: 10px; }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      z-index: 2;
+      position: relative;
+    }
+
+    h1, p {
+      text-align: center;
+      color: white;
+      padding: 0 20px;
+    }
+
+    .reveal-button {
+      margin: 10px;
+      padding: 15px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.8);
+      color: black;
+      transition: opacity 0.5s ease;
+    }
+
+    .option-button {
+      margin: 10px;
+      padding: 15px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(145deg, #006400, #228B22);
+      color: white;
+      animation: glow 1.5s infinite alternate, popIn 0.8s ease-out forwards;
+      width: 200px;
+    }
+
+    .option-button span {
+      display: block;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #006400; }
+      to { box-shadow: 0 0 20px #00FF7F; }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .result {
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+    }
+
+    .final-message {
+      margin-top: 50px;
+      background-color: green;
+      color: white;
+      padding: 30px;
+      width: 80%;
+      border-radius: 10px;
+      font-size: 20px;
+      display: none;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+      animation: popIn 0.8s ease-out forwards, glowPink 1.5s infinite alternate;
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    @keyframes glowPink {
+      from { box-shadow: 0 0 10px rgba(255, 105, 180, 0.5); }
+      to { box-shadow: 0 0 30px rgba(255, 105, 180, 0.9); }
+    }
+
+    #options {
+      display: none;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating clean hearts (SVG based) -->
+<script>
+  for (let i = 0; i < 30; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = `${Math.random() * 100}vw`;
+    heart.style.top = `${Math.random() * 100}vh`;
+    heart.style.animationDuration = `${8 + Math.random() * 6}s`;
+    heart.innerHTML = `
+      <svg viewBox="0 0 32 29.6">
+        <path d="M23.6,0c-3.4,0-6.4,2.2-7.6,5.3C14.8,2.2,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4
+                 c0,10.5,16,21.2,16,21.2s16-10.7,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+      </svg>`;
+    document.body.appendChild(heart);
+  }
+</script>
+
+<!-- Corner text -->
+<div class="corner-text top-left">PR</div>
+<div class="corner-text top-right">PR</div>
+<div class="corner-text bottom-left">PR</div>
+<div class="corner-text bottom-right">PR</div>
+
+<div class="container" id="mainContainer">
+  <h1>Hello my kayastha! 💖</h1>
+  <p>I wanted to remind you that I love you very much. And to spice things up, please choose an option below.</p>
+  <button class="reveal-button" id="revealBtn" onclick="showOptions()">click to see your options darling</button>
+
+  <div id="options">
+    <button class="option-button" id="opt1" onclick="choose(1)">Option 1<span></span></button>
+    <button class="option-button" id="opt2" onclick="choose(2)">Option 2<span></span></button>
+    <button class="option-button" id="opt3" onclick="choose(3)">Option 3<span></span></button>
+    <button class="option-button" id="opt4" onclick="choose(4)">Option 4<span></span></button>
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <div class="final-message" id="finalMessage">
+    No matter how much time passes, I will forever give my efforts to make this relationship worth it. I love you yesterday, today, tomorrow and forever. You make my life worth living and having you by my side is the biggest blessing I have. <br><br>— Yours, Razzi 💚
+  </div>
+</div>
+
+<script>
+  let clicked = false;
+
+  function showOptions() {
+    const revealBtn = document.getElementById('revealBtn');
+    revealBtn.style.opacity = '0';
+    setTimeout(() => revealBtn.style.display = 'none', 500);
+    document.getElementById('options').style.display = 'flex';
+  }
+
+  function choose(option) {
+    if (clicked) return;
+    clicked = true;
+
+    const messages = {
+      1: "We go to the fish tunnel 🐠🐟🐬",
+      2: "Going nightout somewhere 🌙✨🌜",
+      3: "Going for a ride 🚵🚨",
+      4: "Razzi will take you to a dinner date 🍽️🍷💖"
+    };
+
+    const result = document.getElementById("result");
+    result.textContent = `Option ${option} Selected: ${messages[option]}`;
+    result.style.display = 'block';
+    result.style.backgroundColor = 'green';
+
+    for (let i = 1; i <= 4; i++) {
+      if (i !== option) {
+        document.querySelector(`#opt${i} span`).textContent = messages[i];
+      }
+    }
+
+    const finalMessage = document.getElementById("finalMessage");
+    finalMessage.style.display = "block";
+    setTimeout(() => finalMessage.style.opacity = "1", 100);
+  }
+</script>
+
+</body>
+</html>
